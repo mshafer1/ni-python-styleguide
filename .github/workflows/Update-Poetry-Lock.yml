@@ -46,10 +46,10 @@ jobs:
       - name: Check for lock changes
         run: |
           poetry lock
-          git commit -am "Update poetry lock file"
+          git commit -am "Update poetry lock file" || exit 0
           poetry install
           poetry run ni-python-styleguide fix
-          git commit -am "Update formatting"
+          git commit -am "Update formatting" || true
       # based on https://stackoverflow.com/a/73340290/8100990
       - name: Create Pull Request
         run: gh pr create -B main -H automated-updates/update-poetry-lock-${{ steps.vars.outputs.sha_short }} --title 'Update poetry lock and reformat' --body '# Update Poetry Lock\\nRan poetry lock, install, then ni-python-styleguide fix to reformat any changes.\\n---\\nCreated by Github action'
