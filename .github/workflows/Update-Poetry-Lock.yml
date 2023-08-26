@@ -30,9 +30,11 @@ jobs:
           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
       - name: Store starting point
         id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+          echo "branch_name=automated-updates/update-poetry-lock" >> $GITHUB_OUTPUT
       - name: Create branch
-        run: git checkout -b automated-updates/update-poetry-lock-${{ steps.vars.outputs.sha_short }}
+        run: git checkout -b ${{ steps.vars.outputs.branch_name }}
       - uses: actions/setup-python@v2
         with:
           python-version: ${{ env.PYTHON_VERSION }}
@@ -50,13 +52,12 @@ jobs:
           poetry install
           poetry run ni-python-styleguide fix
           git commit -am "Update formatting" || true
-          git push --set-upstream origin automated-updates/update-poetry-lock-${{ steps.vars.outputs.sha_short }}
+          git push --set-upstream origin ${{ steps.vars.outputs.branch_name }}
       # based on https://stackoverflow.com/a/73340290/8100990
       - name: Create Pull Request
         run: | 
-          gh pr create -B main -H automated-updates/update-poetry-lock-${{ steps.vars.outputs.sha_short }} --title 'Update poetry lock and reformat' --body '# Update Poetry Lock
-          Ran `poetry lock`, `poetry install`, then `ni-python-styleguide fix` to reformat any changes.
-          ---
+          gh pr create -B main -H ${{ steps.vars.outputs.branch_name }} --title 'Update poetry lock and reformat' --body '# Update Poetry Lock
+
             Created by Github action'
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
