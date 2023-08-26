@@ -47,6 +47,8 @@ jobs:
           title: Update Poetry Lock
           branch: aotumated-updates/update-poetry-lock
           branch-suffix: short-commit-hash
+          token:  ${{ github.token }}
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           body: |
               # Update Poetry Lock
               Ran poetry lock, install, then ni-python-styleguide fix to reformat any changes.
