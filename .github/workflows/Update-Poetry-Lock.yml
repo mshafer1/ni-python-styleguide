@@ -58,6 +58,12 @@ jobs:
         run: | 
           gh pr create -B main -H ${{ steps.vars.outputs.branch_name }} --title 'Update poetry lock and reformat' --body '# Update Poetry Lock
 
+          Ran:
+          * `poetry lock`,
+          * `poetry install`, then
+          * `ni-python-styleguide fix` to reformat any changes.
+
+          \-\-\-
             Created by Github action'
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
