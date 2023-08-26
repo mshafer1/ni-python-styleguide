@@ -53,6 +53,10 @@ jobs:
           git push --set-upstream origin automated-updates/update-poetry-lock-${{ steps.vars.outputs.sha_short }}
       # based on https://stackoverflow.com/a/73340290/8100990
       - name: Create Pull Request
-        run: gh pr create -B main -H automated-updates/update-poetry-lock-${{ steps.vars.outputs.sha_short }} --title 'Update poetry lock and reformat' --body '# Update Poetry Lock\\nRan poetry lock, install, then ni-python-styleguide fix to reformat any changes.\\n---\\nCreated by Github action'
+        run: | 
+          gh pr create -B main -H automated-updates/update-poetry-lock-${{ steps.vars.outputs.sha_short }} --title 'Update poetry lock and reformat' --body '# Update Poetry Lock
+          Ran `poetry lock`, `poetry install`, then `ni-python-styleguide fix` to reformat any changes.
+          ---
+            Created by Github action'
         env:
             GITHUB_TOKEN: ${{ secrets.TOKEN }}
