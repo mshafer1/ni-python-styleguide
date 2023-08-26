@@ -42,6 +42,7 @@ jobs:
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
       - name: Configure git user
+        # https://github.com/actions/checkout/discussions/479
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
