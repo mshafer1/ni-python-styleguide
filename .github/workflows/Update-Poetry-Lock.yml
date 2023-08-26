@@ -39,6 +39,10 @@ jobs:
       - uses: Gr1N/setup-poetry@v8
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
+      - name: Configure git user
+        run: |
+          git config user.email "no-reply@users.noreply.github.com"
+          git config user.name "GitHub Actions Bot"
       - name: Check for lock changes
         run: |
           poetry lock
